@@ -1,0 +1,26 @@
+/* nav */
+.navbar{
+    position: relative;
+}
+/* main */
+.main{
+    position:absolute;
+    top: 65px;
+}
+.travel, .music, .books{
+    width:150px;
+    margin:0 auto;
+    border: 5px solid #ffc107;
+    border-radius: 50px;
+}
+/* footer */
+.footer{
+    height:100px;
+    width:100%;
+    background-color: black;
+}
+
+.sns {
+    height: 50px;
+    width :50%;
+}
