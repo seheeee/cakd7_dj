@@ -10,6 +10,7 @@
         <title>{{ post.title }} - Blog</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <script src="https://kit.fontawesome.com/a939cc6dff.js" crossorigin="anonymous"></script>
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
@@ -41,25 +42,47 @@
                         <header class="mb-4">
                             <!-- Post title-->
                             <h1 class="fw-bolder mb-1">{{post.title}}</h1>
+                            <h5 class="text-muted" >{{ post.hook_text }}</h5>
                             <!-- Post Author-->
                             <p class="lead">
                                 by
-                                <a href="#">작성자명(개발예정)</a>
+                                <a href="#">{{ post.author | upper }}</a>
                             </p>
                             <hr>
                             <!-- Post time -->
                             <p>{{ post.created_at }}</p>
                             <hr>
-                            <!-- Post categories-->
-                            <a class="badge bg-warning text-decoration-none link-light text-dark" href="#!">관련기사</a>
-                            <a class="badge bg-warning text-decoration-none link-light text-dark" href="#!">뉴스</a>
                         </header>
                         <!-- Preview image figure-->
-                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.head_image.url }}" alt="..." /></figure>
+                        {% if post.head_image %}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.head_image.url }}" alt="{{ post.title }} head_image"></figure>
+                        {% else %}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="https://picsum.photos/seed/{{ post.id }}/800/500" alt="random_image"></figure>
+                        {% endif %}
                         <!-- Post content-->
                         <section class="mb-5">
+                            {% if post.category %}
+                            <div class="badge badge-warning">{{ post.category }}</div>
+                            {% else %}
+                            <div class="badge badge-warning">미분류</div>
+                            {% endif %}
                             <p class="fs-5 mb-4">{{post.content}}</p>
+                            {% if post.file_upload %}
+                            <a href="{{ post.file_upload.url }}" class="btn btn-outline-warning" role="button" download>
+                            {% if post.get_file_ext == 'csv' %}
+                                <i class="fa-solid fa-file-csv"></i>
+                            {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+                                <i class="fa-solid fa-file-excel"></i>
+                            {% elif post.get_file_ext == 'docs' or post.get_file_ext == 'doc' %}
+                                <i class="fa-solid fa-file-word"></i>
+                            {% else %}
+                                <i class="fa-solid fa-file-arrow-down"></i>
+                            {% endif %}
+                            {{ post.get_file_name }}
+                            </a>
+                        {% endif %}
                         </section>
+                        
                     </article>
                     <!-- Comments section-->
                     <section class="mb-5">
